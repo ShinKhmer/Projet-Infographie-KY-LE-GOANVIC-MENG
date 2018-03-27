@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1522115697 source:c:\program files (x86)\codeblocks\projects\infographie\semestre 2\projet-infographie-ky-le-goanvic-meng\main.cpp
+	<windows.h>
+	<GLUT/glut.h>
+	<GL/glut.h>
+	<stdlib.h>
+	<stdio.h>
+	<math.h>
+

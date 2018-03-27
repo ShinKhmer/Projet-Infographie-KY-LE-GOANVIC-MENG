@@ -35,10 +35,17 @@
 
 float alpha=0;
 float beta =0;
-float x1;
-float Y1;
-float z1;
+float xo;
+float yo;
+float zo;
+float xi=1;
+float yi=1;
+float zi=1;
 float R=1;
+float r1;
+float r2;
+float r3;
+float t=0.5;
 int cam=0;
 
 float angle = 0.0;
@@ -176,13 +183,24 @@ void display(void){
 	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
 
 
-	x1=R*cos(beta)*sin(alpha);//R cos beta sin alpha
-	Y1=R*sin(beta);//R sin beta
-	z1=R*cos(beta)*cos(alpha);//R cos alpha cos beta
+	xo=R*cos(beta)*sin(alpha);//R cos beta sin alpha
+	yo=R*sin(beta);//R sin beta
+	zo=R*cos(beta)*cos(alpha);//R cos alpha cos beta
 	//beta�[-PI/2 ; PI/2]
 	//alpha�[0; 2PI]
-	gluLookAt(x1,Y1,z1
-           ,0,0,0
+
+	xi=R*cos(beta)*sin(alpha)+xo;
+	yi=R*sin(beta)+yo;
+	zi=R*cos(beta)*cos(alpha)+zo;
+
+	//xo=xo+t*(xi-xo);
+
+	xo+=t*(xi-xo);
+	yo+=t*(yi-yo);
+	zo+=t*(zi-zo);
+
+	gluLookAt(xo,yo,zo
+           ,xi,yi,zi
            ,0,1,0);
 
 /** TORSE**/
@@ -250,6 +268,8 @@ glPopMatrix();
         glTranslatef(0,-1,0);
         glutSolidSphere(0.5,16,32);
         create_cylinder(90,0.5,0.5,2.5);
+
+        create_quadrilateral(2,0.5,1);
     glPopMatrix();
 
 
@@ -261,6 +281,8 @@ glPopMatrix();
         glTranslatef(0,-1,0);
         glutSolidSphere(0.5,16,32);
         create_cylinder(90,0.5,0.5,2.5);
+
+        create_quadrilateral(2,0.5,1);
     glPopMatrix();
 
 /**ROUE**/
@@ -430,7 +452,14 @@ void keyboard(unsigned char key, int x, int y) {
         case 'i':
             R +=0.5;
             break;
-
+        case 'z':
+            t-=0.3;
+            break;
+        case 's':
+            t+=0.3;
+            break;
+        case 'q':
+            alpha += xo;
 
 			case 'a':   /* activation lumi�re n�0 */
 				glEnable(GL_LIGHTING);
@@ -468,8 +497,6 @@ void keyboard(unsigned char key, int x, int y) {
 				glDisable(GL_LIGHTING);
 				glutPostRedisplay();
 				break;
-
-			case 'q':   /* Quitter le programme */
 				exit(0);
 		}
 }
